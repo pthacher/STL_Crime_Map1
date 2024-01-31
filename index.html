@@ -1,0 +1,69 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Load a basic WebMap | Sample | ArcGIS Maps SDK for JavaScript 4.28</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css" />
+
+    <script src="https://js.arcgis.com/4.28/"></script>
+    
+    
+
+    <script>
+      require(["esri/Map", "esri/views/MapView", "esri/layers/CSVLayer"], (Map, MapView, CSVLayer) => {
+        
+        const map = new Map({
+            basemap: "hybrid"
+          
+        });
+	
+        const view = new MapView({
+          map: map,
+          container: "viewDiv",
+	center: [-71.1, 42.3],
+	zoom: 10
+        });
+	var url = "https://raw.githubusercontent.com/orhuna/WebGIS_SLU_M1/main/Module%202/stl_crime_wgs_84.csv";
+
+	const template = {
+          title: "Earthquake Info",
+          content: "Magnitude {mag} {type} hit {place} on {time}."
+        };
+
+        const csvLayer = new CSVLayer({
+          url: url,
+          popupTemplate: template
+        });
+	
+	map.add(csvLayer);
+
+
+        var symbol = {
+          type: "simple-marker", 
+          color: "green"
+        };
+
+      csvLayer.renderer = {
+        type: "simple", // autocasts as new SimpleRenderer()
+        symbol: symbol
+      };	
+ });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
